@@ -11,7 +11,7 @@ let inputRef = React.createRef();
 
 export default class MyDatePicker extends Component {
   state = {
-    getMonthDetails: []
+    getMonthDetails: [],
   };
 
   constructor() {
@@ -23,7 +23,7 @@ export default class MyDatePicker extends Component {
       year,
       month,
       selectedDay: todayTimestamp,
-      monthDetails: this.getMonthDetails(year, month)
+      monthDetails: this.getMonthDetails(year, month),
     };
   }
 
@@ -56,7 +56,7 @@ export default class MyDatePicker extends Component {
     "Wednesday",
     "Thursday",
     "Friday",
-    "Saturday"
+    "Saturday",
   ];
   monthMap = [
     "January",
@@ -70,7 +70,7 @@ export default class MyDatePicker extends Component {
     "September",
     "October",
     "November",
-    "December"
+    "December",
   ];
 
   getDayDetails = (args) => {
@@ -92,7 +92,7 @@ export default class MyDatePicker extends Component {
       day,
       month,
       timestamp,
-      dayString: this.daysMap[day]
+      dayString: this.daysMap[day],
     };
   };
 
@@ -104,7 +104,7 @@ export default class MyDatePicker extends Component {
     let firstDay = new Date(year, month).getDay();
     let numberOfDays = this.getNumberOfDays(year, month);
     let monthArray = [];
-    let rows = 6;
+    let rows = 5;
     let currentDay = null;
     let index = 0;
     let cols = 7;
@@ -116,7 +116,7 @@ export default class MyDatePicker extends Component {
           numberOfDays,
           firstDay,
           year,
-          month
+          month,
         });
         monthArray.push(currentDay);
         index++;
@@ -179,7 +179,7 @@ export default class MyDatePicker extends Component {
       this.setState({
         year: dateData.year,
         month: dateData.month - 1,
-        monthDetails: this.getMonthDetails(dateData.year, dateData.month - 1)
+        monthDetails: this.getMonthDetails(dateData.year, dateData.month - 1),
       });
     }
   };
@@ -203,7 +203,7 @@ export default class MyDatePicker extends Component {
     let month = this.state.month;
     this.setState({
       year,
-      monthDetails: this.getMonthDetails(year, month)
+      monthDetails: this.getMonthDetails(year, month),
     });
   };
 
@@ -220,13 +220,9 @@ export default class MyDatePicker extends Component {
     this.setState({
       year,
       month,
-      monthDetails: this.getMonthDetails(year, month)
+      monthDetails: this.getMonthDetails(year, month),
     });
   };
-
-  /**
-   *  Renderers
-   */
 
   renderCalendar() {
     let days = this.state.monthDetails.map((day, index) => {
@@ -249,13 +245,6 @@ export default class MyDatePicker extends Component {
 
     return (
       <div className="c-container">
-        <div className="cc-head">
-          {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d, i) => (
-            <div key={i} className="cch-name">
-              {d}
-            </div>
-          ))}
-        </div>
         <div className="cc-body">{days}</div>
       </div>
     );
@@ -273,32 +262,49 @@ export default class MyDatePicker extends Component {
         </div>
         {this.state.showDatePicker ? (
           <div className="mdp-container">
-            <div className="mdpc-head">
-              <div className="mdpch-button">
-                <div className="mdpchb-inner" onClick={() => this.setYear(-1)}>
-                  <span className="mdpchbi-left-arrows"></span>
+            <div className="mdpc-header">
+              <div className="mdpc-head">
+                <div className="mdpch-button">
+                  <div
+                    className="mdpchb-inner"
+                    onClick={() => this.setYear(-1)}
+                  >
+                    <span className="mdpchbi-left-arrows"></span>
+                  </div>
+                </div>
+                <div className="mdpch-button">
+                  <div
+                    className="mdpchb-inner"
+                    onClick={() => this.setMonth(-1)}
+                  >
+                    <span className="mdpchbi-left-arrow"></span>
+                  </div>
+                </div>
+                <div className="mdpch-container">
+                  <div className="mdpchc-year">
+                    {this.getMonthStr(this.state.month)} {this.state.year}
+                  </div>
+                </div>
+                <div className="mdpch-button">
+                  <div
+                    className="mdpchb-inner"
+                    onClick={() => this.setMonth(1)}
+                  >
+                    <span className="mdpchbi-right-arrow"></span>
+                  </div>
+                </div>
+                <div className="mdpch-button" onClick={() => this.setYear(1)}>
+                  <div className="mdpchb-inner">
+                    <span className="mdpchbi-right-arrows"></span>
+                  </div>
                 </div>
               </div>
-              <div className="mdpch-button">
-                <div className="mdpchb-inner" onClick={() => this.setMonth(-1)}>
-                  <span className="mdpchbi-left-arrow"></span>
-                </div>
-              </div>
-              <div className="mdpch-container">
-                <div className="mdpchc-year">{this.state.year}</div>
-                <div className="mdpchc-month">
-                  {this.getMonthStr(this.state.month)}
-                </div>
-              </div>
-              <div className="mdpch-button">
-                <div className="mdpchb-inner" onClick={() => this.setMonth(1)}>
-                  <span className="mdpchbi-right-arrow"></span>
-                </div>
-              </div>
-              <div className="mdpch-button" onClick={() => this.setYear(1)}>
-                <div className="mdpchb-inner">
-                  <span className="mdpchbi-right-arrows"></span>
-                </div>
+              <div className="cc-head">
+                {["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"].map((d, i) => (
+                  <div key={i} className="cch-name">
+                    {d}
+                  </div>
+                ))}
               </div>
             </div>
             <div className="mdpc-body">{this.renderCalendar()}</div>
