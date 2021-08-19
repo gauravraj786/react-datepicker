@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import ReactDOM from "react-dom";
 import "./MyDatePicker.css";
 
 let oneDay = 60 * 60 * 24 * 1000;
@@ -12,6 +11,7 @@ let inputRef = React.createRef();
 export default class MyDatePicker extends Component {
   state = {
     getMonthDetails: [],
+    showDatePicker: false,
   };
 
   constructor() {
@@ -28,25 +28,11 @@ export default class MyDatePicker extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener("click", this.addBackDrop);
     this.setDateToInput(this.state.selectedDay);
   }
 
-  componentWillUnmount() {
-    window.removeEventListener("click", this.addBackDrop);
-  }
-
-  addBackDrop = (e) => {
-    if (
-      this.state.showDatePicker &&
-      !ReactDOM.findDOMNode(this).contains(e.target)
-    ) {
-      this.showDatePicker(false);
-    }
-  };
-
-  showDatePicker = (showDatePicker = true) => {
-    this.setState({ showDatePicker });
+  showDatePicker = () => {
+    this.setState({ showDatePicker: !this.state.showDatePicker });
   };
 
   daysMap = [
@@ -190,7 +176,7 @@ export default class MyDatePicker extends Component {
   };
 
   onDateClick = (day) => {
-    this.setState({ selectedDay: day.timestamp }, () =>
+    this.setState({ selectedDay: day.timestamp, showDatePicker: false }, () =>
       this.setDateToInput(day.timestamp)
     );
     if (this.props.onChange) {
@@ -253,7 +239,7 @@ export default class MyDatePicker extends Component {
   render() {
     return (
       <div className="MyDatePicker">
-        <div className="mdp-input" onClick={() => this.showDatePicker(true)}>
+        <div className="mdp-input" onClick={() => this.showDatePicker()}>
           <input
             type="date"
             onChange={this.updateDateFromInput}
