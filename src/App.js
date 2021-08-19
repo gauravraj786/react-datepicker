@@ -1,14 +1,17 @@
-import React, { Component } from "react";
-import Datepicker from "./components/Datepicker";
+import React from "react";
+import "./App.css";
+import MyDatePicker from "./MyDatePicker/MyDatePicker";
 
-class App extends Component {
-  render() {
-    return (
-      <div className="w-25 py-5 my-5 mx-auto" style={{ minWidth: "60%" }}>
-        <Datepicker value="2021-08-19" />
-      </div>
-    );
-  }
+function onChange(timestamp) {
+  console.log(timestamp);
+}
+
+function App() {
+  return (
+    <div className="App">
+      <MyDatePicker onChange={onChange} />
+    </div>
+  );
 }
 
 export default App;
